@@ -1055,7 +1055,7 @@
    "Wwise 2019.2.15.7667 Authoring (WwiseConsole, free licence)",
    "Python 3.13 (Blender's bundled interpreter) + numpy/scipy"
   ],
-  "anti_cheat": "EasyAntiCheat never touched: ModEngine 2 launches the game offline with a separate profile; no Seamless/online use with these files",
+  "anti_cheat": "EasyAntiCheat never touched: ModEngine 2 starts eldenring.exe without EAC, so the game runs offline; no Seamless/online use with these files",
   "status": "working",
   "agents": [
    "Claude Code (Opus 5.5)"
