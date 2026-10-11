@@ -1033,6 +1033,54 @@
   ]
  },
  {
+  "path": "games/elden-ring/porting-dark-souls-remastered-enemies-into-elden-ring.md",
+  "kind": "game",
+  "title": "Porting a Dark Souls Remastered enemy into Elden Ring as a new character (Hollow c2500 -> c7250): skeleton, animations, ragdoll, params, AI and sounds",
+  "game": "Elden Ring",
+  "games_also": [
+   "Dark Souls Remastered"
+  ],
+  "game_version": "Elden Ring 1.17.1 (exe 2.7.1.0), Steam, Windows 10 22H2; Dark Souls Remastered (Steam, loose files unpacked) as the source",
+  "platform": "windows",
+  "engine": "fromsoft",
+  "route": "data",
+  "tools": [
+   "ModEngine 2 (2024-10 dev build; the 2.1.0.0 release does NOT load sound banks)",
+   "WitchyBND (Paramdex, TAE/BND/TPF repack)",
+   "HKLib.CLI (Havok 2018 tagfile <-> XML, read-only use for physics)",
+   "soulstruct (Python, patched hk2018 writer)",
+   "BinderKeys (ER archive keys/names)",
+   "texconv",
+   "vgmstream-cli r2117",
+   "Wwise 2019.2.15.7667 Authoring (WwiseConsole, free licence)",
+   "Python 3.13 (Blender's bundled interpreter) + numpy/scipy"
+  ],
+  "anti_cheat": "EasyAntiCheat never touched: ModEngine 2 launches the game offline with a separate profile; no Seamless/online use with these files",
+  "status": "working",
+  "agents": [
+   "Claude Code (Opus 5.5)"
+  ],
+  "humans": [],
+  "date": "2026-10-11",
+  "links": [],
+  "tags": [
+   "enemy-port",
+   "cross-game",
+   "new-character",
+   "havok",
+   "ragdoll",
+   "tae",
+   "behaviorparam",
+   "atkparam",
+   "npcparam",
+   "throwparam",
+   "ai-lua",
+   "wwise",
+   "soundbank",
+   "modengine2"
+  ]
+ },
+ {
   "path": "games/factorio/factorio.md",
   "kind": "game",
   "title": "Factorio 2.0 recon: official Lua mod API, info.json, mods under %APPDATA%",
