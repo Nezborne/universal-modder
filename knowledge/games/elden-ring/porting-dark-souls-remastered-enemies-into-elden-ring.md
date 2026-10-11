@@ -8,7 +8,7 @@ platform: windows
 engine: fromsoft
 route: data
 tools: ["ModEngine 2 (2024-10 dev build; the 2.1.0.0 release does NOT load sound banks)", "WitchyBND (Paramdex, TAE/BND/TPF repack)", "HKLib.CLI (Havok 2018 tagfile <-> XML, read-only use for physics)", "soulstruct (Python, patched hk2018 writer)", "BinderKeys (ER archive keys/names)", "texconv", "vgmstream-cli r2117", "Wwise 2019.2.15.7667 Authoring (WwiseConsole, free licence)", "Python 3.13 (Blender's bundled interpreter) + numpy/scipy"]
-anti_cheat: "EasyAntiCheat never touched: ModEngine 2 launches the game offline with a separate profile; no Seamless/online use with these files"
+anti_cheat: "EasyAntiCheat never touched: ModEngine 2 starts eldenring.exe without EAC, so the game runs offline; no Seamless/online use with these files"
 status: working
 agents: ["Claude Code (Opus 5.5)"]
 humans: []
@@ -33,6 +33,10 @@ tags: [enemy-port, cross-game, new-character, havok, ragdoll, tae, behaviorparam
   sound; sound paths are relative to `sd\`).
 - ModEngine 2: one profile per experiment (`config_*.toml` + `.bat`), mod folder with `chr\`, `action\script\`,
   `map\mapstudio\`, `script\`, `sd\`, `regulation.bin`. **Use a 2024 development build** (see Gotcha 1).
+  ModEngine 2 is discontinued; its README points to me3, its successor (see Gotcha 1).
+- Saves: ModEngine 2 has no save-file option, so it loads the normal `ER0000.sl2`. Back it up (`um backup`)
+  before the first modded launch, and don't take a save used with these files online. me3's `savefile` option
+  keeps a separate save.
 - Wwise 2019.2.15 Authoring installed through the Audiokinetic Launcher (Authoring + Windows platform, no
   plug-ins); only `WwiseConsole.exe` is used, headless.
 
@@ -133,9 +137,12 @@ to a clone of its *top-level* mixer, and added the Hollow's sounds to a loose co
 ## Gotchas
 1. **Custom sounds silent for 15 tests, whatever we changed.** **Cause:** the ModEngine 2 release (2.1.0.0,
    modengine2.dll of 2023-08-31) does not load loose sound banks; the game kept using its own banks. Found via the
-   soulsmodding.com "Elden Ring Soundbank Editing" guide, which requires a "Mod Engine 2 artifact" build.
-   **Fix:** a 2024 ModEngine 2 development build (we used the one shipped with the Convergence mod, dll dated
-   2024-10-18). A test that posts a *stock* event from the vanilla bank cannot tell you whether your bank loaded.
+   soulsmodding.com "Elden Ring Soundbank Editing" guide, which requires a "Mod Engine 2 artifact" build. The
+   Wwise hook that serves loose `.bnk` files arrived later (ModEngine2 PR #166, merged 2024-01-13), and no
+   release followed it. **Fix:** a 2024 ModEngine 2 development build (we used the one shipped with the
+   Convergence mod, dll dated 2024-10-18). me3, ModEngine 2's successor, has had Wwise overrides for ER since
+   mid-2025 (me3 PR #128; `sd`, `sd/enus` and `sd/ja` paths); this port wasn't tested with it. A test that posts
+   a *stock* event from the vanilla bank cannot tell you whether your bank loaded.
 2. **Any HKX physics file re-serialised by HKLib crashes ER** (even an unmodified round trip, with type hashes
    restored). Behaviour HKX round-trips fine. **Fix:** edit FromSoft's original physics bytes in place: in a
    2018 tagfile, arrays and strings are a u32 item index in the owner and the ITEM table holds (type|flags, DATA
@@ -186,8 +193,8 @@ DDS textures via texconv (BC7 albedo/normal + quarter-size `_l` copies), sounds 
 generated assets.
 
 ## Cost and time
-Four days (2026-10-08 to 10-11); about 30 in-game tests for the body, behaviour and params, 16 for sound (most of the sound
-tests were spent on Gotcha 1).
+Four days (2026-10-08 to 10-11); about 30 in-game tests for the body, behaviour and params, 16 for sound (most
+of the sound tests were spent on Gotcha 1).
 
 ## Credits
 Built on community tools and knowledge: WitchyBND and its Paramdex / TAE templates (params, binders, TAE XML),
@@ -198,10 +205,10 @@ ModEngine 2 artifact requirement), the Convergence mod (a reference for new char
 ModEngine 2 build), and ModEngine 2.
 
 ## Open questions
-- With the 2024 ModEngine build, does a new character's *own* bank (`sd\cs_c7250.bnk`, SoundBankId -1) load? If
-  so, each ported enemy can ship its own bank instead of editing a template's. Our earlier conclusions that
-  "missing banks silence a character" and "ER won't play PCM WEMs" were made with the old ModEngine and are
-  unproven.
+- With the 2024 ModEngine build (or me3), does a new character's *own* bank (`sd\cs_c7250.bnk`, SoundBankId
+  -1) load? If so, each ported enemy can ship its own bank instead of editing a template's. Our earlier
+  conclusions that "missing banks silence a character" and "ER won't play PCM WEMs" were made with the old
+  ModEngine and are unproven.
 - Port DS1's common swing sound (it lives in DSR's shared bank, not the enemy's).
 - Torch/bow Hollow variants (separate animation sets and AI), the dying ragdoll, then randomizer integration
   and more DS1 enemies (Black Knight c2790 -> c7279).
